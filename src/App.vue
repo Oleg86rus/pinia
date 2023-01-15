@@ -1,85 +1,70 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+  <main>
+    <header class="header">
+      <img src="/logo.svg" alt="logo" class="header-logo">
+      <h2>My Favourite Movies</h2>
+    </header>
+    <div class="tabs">
+      <button :class="['btn', {btn_green: movieStore.activeTab === 1}]">Favourite</button>
+      <button :class="['btn', {btn_green: movieStore.activeTab === 2}]">Search</button>
     </div>
-  </header>
-
-  <RouterView />
+    <div class="movies" v-if="movieStore.activeTab === 1">
+      <div>
+        <h3>Watched movies (count: {{ movieStore.watchedMovies }})</h3>
+        <Movie
+            v-for="m of movieStore.watchedMovies"
+            :key="m.id"
+            :movie="m"
+        />
+      </div>
+      <h3>All movies (count: {{ movieStore.totalCountMovies }})</h3>
+      <Movie
+          v-for="m of movieStore.movies"
+          :key="m.id"
+          :movie="m"
+      />
+    </div>
+    <div class="search" v-else>Search</div>
+  </main>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+<script setup>
+import { useMovieStore } from "./stores/MovieStore";
+import Movie from './components/Movie.vue'
+
+const movieStore = useMovieStore();
+</script>
+
+<style lang="css">
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.header-logo {
+  max-width: 50px;
+  margin-right: 10px;
 }
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+.btn {
+  border: none;
+  width: 100px;
+  height: 40px;
+  font-size: 14px;
+  margin: 0 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #efefef;
 }
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
+.btn:hover {
+  opacity: 0.7;
 }
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.btn_green {
+  background: #37df5c;
 }
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
 }
 </style>
