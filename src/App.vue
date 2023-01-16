@@ -13,14 +13,14 @@
         <h3>Watched movies (count: {{ movieStore.watchedMovies.length }})</h3>
         <Movie
             v-for="m of movieStore.watchedMovies"
-            :key="m.id"
+            :key="m.filmId"
             :movie="m"
         />
       </div>
       <h3>All movies (count: {{ movieStore.totalCountMovies }})</h3>
       <Movie
           v-for="m of movieStore.movies"
-          :key="m.id"
+          :key="m.filmId"
           :movie="m"
       />
     </div>
