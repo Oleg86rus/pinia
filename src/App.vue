@@ -24,13 +24,16 @@
           :movie="m"
       />
     </div>
-    <div class="search" v-else>Search</div>
+    <div class="search" v-else>
+      <Search />
+    </div>
   </main>
 </template>
 
 <script setup>
 import { useMovieStore } from "./stores/MovieStore";
 import Movie from './components/Movie.vue'
+import Search from './components/Search.vue'
 
 const setTab = (id) => movieStore.setActiveTab(id)
 const movieStore = useMovieStore();
